@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# A09 — Venue Explorer: Data Fetching
 
-## Getting Started
+Next.js app continuing A08, with venue information fetched from the assignment backend.
 
-First, run the development server:
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000/venue to browse the three venues. Select a card to see its image, address, district, province, postal code, telephone number, and daily rental rate.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Implementation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `src/libs/getVenues.tsx` fetches the catalog as `Promise<VenueJson>`.
+- `src/components/VenueCatalog.tsx` awaits that promise and renders cards without ratings.
+- `src/libs/getVenue.tsx` fetches one venue using its backend ID.
+- `/venue/[vid]` renders the fetched details with asynchronous route parameters.
+- Ratings remain available to A08 components that pass `onRatingChange`.
+- Requests run on the server with `cache: "no-store"`. Backend availability is required at runtime, not during the production build.
+- `next.config.ts` permits the backend's Google Drive pictures through Next.js Image optimization. Server-side API fetches do not require frontend CORS headers.
 
-## Learn More
+## Validate
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm test -- --runInBand
+npx eslint src interface.ts next.config.ts
+npm run build
+npm run start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The supplied grading files use `var` and `any`, so the starter's repository-wide `npm run lint` reports errors in those unchanged tests.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Submission
 
-## Deploy on Vercel
+Deployment URL: not deployed yet.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Before submitting:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Push the completed project to the assignment repository and your personal GitHub repository.
+2. Import the personal repository into Vercel as a Next.js project and deploy.
+3. Verify `/venue`, each venue detail page, and venue images on the deployed site.
+4. Replace the deployment status above with the actual Vercel URL in both repositories.
+
+The manual grading point requires the deployed `/venue` page to fetch and display real backend data.
