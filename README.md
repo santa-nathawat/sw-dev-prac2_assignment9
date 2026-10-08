@@ -1,3 +1,5 @@
+Vercel Link: https://sw-dev-prac2-assignment9.vercel.app/
+
 # A09 — Venue Explorer: Data Fetching
 
 Next.js app continuing A08, with venue information fetched from the assignment backend.
